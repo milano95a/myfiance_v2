@@ -1,97 +1,104 @@
-# UI Flows
+# UI Flows & Layout (AI-Friendly Spec)
 
-This document describes the main user interface flows for the **MyFiance v2** expense tracking app. It details screens, elements, and navigation paths.
+This document describes the screens, UI elements, and navigation flows for **MyFiance v2**.  
+It is structured to allow AI-assisted code generation while remaining human-readable.
 
 ---
 
-## 1. Main Screens
-
-### 1.1 Home / Dashboard (Tab Bar)
-**Purpose:** Main entry point with two tabs for expenses and reports.
+## 1. Home / Dashboard (Tab Bar)
 
 **Tabs:**
-1. **Expenses** – List of all expenses (default tab)  
-2. **More** – Various reports and analytics
+1. **Expenses** – Default tab
+2. **More** – Reports & analytics
+
+### 1.1 Expenses Tab
+
+**Screen Layout:**
+- **Navigation Bar (top)**
+  - Left: Title ("Expenses")
+  - Right: Settings button → navigates to **Settings / Categories**  
+- **Body**
+  - Search field (top of body) → filters expense list dynamically
+  - Expense list (vertical scrolling list) → tap item → **Edit Expense**  
+- **Floating Action Button** → tap → **Add Expense**  
+
+**Interactions / Navigation:**
+- Tap **Search field** → filter expense list
+- Tap expense item → **Edit Expense screen**
+- Tap Add button → **Add Expense screen**
+- Tap Settings button → **Settings / Categories screen**
+
+**Optional Notes for AI:**
+- Search field optional input
+- Expense list: show most recent first, scrollable
+- Floating Add button always visible
 
 ---
 
-#### 1.1.1 Expenses Tab
-**Purpose:** Show a list of expenses, allow quick search, and provide navigation to add expense or settings.
+### 1.2 More Tab
 
-**Layout:**
-- **Navigation Bar (top):**
-  - Left: title ("Expenses")
-  - Right: **Settings button**
-- **Body:**
-  - Search field below navigation bar
-  - Vertical list of expenses (`ExpenseItemView`)
-- **Floating button (bottom-right):** **Add Expense**
-
-**Flow:**
-- Scroll through expenses
-- Tap search → filter the list dynamically
-- Tap **Add Expense** → **Add Expense screen**
-- Tap an expense → **Edit Expense screen**
-- Swipe / delete gesture → call `ExpenseService.delete`
-- Tap **Settings** → **Settings / Categories screen**
+*(To be defined later)*
 
 ---
 
-#### 1.1.2 More Tab
-**Purpose:** Show reports and analytics.
+### 1.3 Add / Edit Expense Screen
 
-**Elements:**
-- Monthly spending summary (graph or chart)
-- Category breakdown
-- Filter by time period (day / week / month)
+**Screen Layout:**
+- Form fields:
+  - Expense Name (text input)
+  - Amount (numeric input)
+  - Date (date picker, defaults to today)
+  - Category (dropdown / selector)
+  - Notes (optional)
+- Buttons:
+  - Save → validates & saves → returns to **Expenses Tab**
+  - Cancel → discard changes → returns to previous screen
 
-**Flow:**
-- Tap chart item → optionally filter **Expense List** in Expenses tab
-- Tap back → return to **More** tab
-
----
-
-### 1.2 Add / Edit Expense
-**Purpose:** Add a new expense or update an existing one.
-
-**Elements:**
-- Expense Name (text input)
-- Amount (numeric input)
-- Date (date picker, defaults to today)
-- Category (dropdown / selector)
-- Notes (optional)
-- Save / Cancel buttons
-
-**Flow:**
-- **Save:** validate inputs → call `ExpenseService.add` or `update` → return to **Expenses tab**
-- **Cancel:** discard changes → return to previous screen
+**Optional Notes for AI:**
+- Validate that Amount is numeric
+- Auto-select today’s date by default
+- Category dropdown can include AI-suggested categories
 
 ---
 
-### 1.3 Settings / Categories
-**Purpose:** Manage categories and app settings.
+### 1.4 Settings / Categories Screen
 
-**Elements:**
+**Screen Layout:**
 - List of categories (name, color)
-- Add / edit / delete category
-- Preferences (currency, date format, AI settings)
+- Buttons:
+  - Add → add new category
+  - Edit / Delete → update or remove category
+- Preferences (optional):
+  - Currency
+  - Date format
+  - AI settings
 
-**Flow:**
-- Tap **Add Category** → input name & color → save → update list
-- Tap category → edit → save or delete
+**Interactions / Navigation:**
+- Tap Add → open form → save → update list
+- Tap category → edit/delete → save or delete → update list
 
 ---
 
-## 2. Navigation Flow (High-level)
+## 2. Navigation Flow (ASCII Diagram)
 
 Home / Dashboard (Tab Bar)
- ├─ Expenses Tab
- │    ├─ Search field → filter expenses
- │    ├─ Tap expense → Edit Expense → Save / Cancel → return to Expenses
- │    ├─ Tap Add button → Add Expense → Save / Cancel → return to Expenses
- │    └─ Tap Settings button → Settings / Categories
- └─ More Tab
-      ├─ View reports
-      ├─ Tap chart item → filter Expenses list
-      └─ Tap back → More Tab
+├─ Expenses Tab
+│ ├─ Search field → filter expenses
+│ ├─ Tap expense → Edit Expense → Save / Cancel → return to Expenses
+│ ├─ Tap Add button → Add Expense → Save / Cancel → return to Expenses
+│ └─ Tap Settings button → Settings / Categories → back
+└─ More Tab
+└─ (To be defined)
 
+yaml
+Copy code
+
+---
+
+## 3. Notes for AI Code Generation
+
+- Use structured layout: navigation bar, body, floating buttons, lists, forms.  
+- Use default values where indicated (e.g., today’s date).  
+- All screens should be responsive and handle dynamic data.  
+- AI-suggested enhancements can include auto-categorization and spending predictions.  
+- Avoid pixel-perfect positions; conceptual layout (top, bottom, floating) is sufficient.
