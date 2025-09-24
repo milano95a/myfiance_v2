@@ -18,7 +18,7 @@ struct Expense {
     var date: Date
     var category: String
     var notes: String?
-}
+}`
 
 ---
 
