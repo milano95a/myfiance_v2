@@ -85,14 +85,15 @@ This document describes the main user interface flows for the **MyFiance v2** ex
 ## 2. Navigation Flow (High-level)
 
 Home / Dashboard (Tab Bar)
-├─ Expenses Tab
-│ ├─ Navigation Bar: Title (left), Settings button (right)
-│ ├─ Search field → filter expenses
-│ ├─ Scroll expense list
-│ ├─ Tap expense → Edit Expense → Save / Cancel → Expenses
-│ ├─ Floating Add button (bottom-right) → Add Expense → Save / Cancel → Expenses
-│ └─ Settings button → Settings / Categories
-└─ More Tab
-├─ View reports
-├─ Tap chart item → filter Expenses list
-└─ Tap back → More Tab
+ ├─ Expenses Tab
+ │    ├─ NavBar: Title (left), Settings (right)
+ │    ├─ Search field
+ │    ├─ Scroll expenses
+ │    ├─ Tap expense → Edit Expense → Save/Cancel → Expenses
+ │    ├─ Floating Add (bottom-right) → Add Expense → Save/Cancel → Expenses
+ │    └─ Settings → Settings/Categories
+ └─ More Tab
+      ├─ View reports
+      ├─ Tap chart item → filter Expenses
+      └─ Tap back → More Tab
+
