@@ -109,3 +109,34 @@ Keep layouts conceptual (top, bottom, floating buttons)
 Follow validation rules from constraints section
 
 Use this README as the single source of truth for all features
+
+---
+
+## 9. ViewModels
+
+### ExpenseListViewModel
+- **Purpose:** Connects Expenses List UI with ExpenseService.
+- **Responsibilities:**
+  - Load expenses from ExpenseService.
+  - Handle deletion of expenses.
+  - Update UI state (loading, error, empty state).
+- **Methods:**
+  - `loadExpenses(filter: ExpenseFilter?)`
+  - `deleteExpense(id: UUID)`
+- **State:**
+  - `expenses: [Expense]`
+  - `isLoading: Bool`
+  - `errorMessage: String?`
+
+### AddEditExpenseViewModel
+- **Purpose:** Connects Add/Edit Expense UI with ExpenseService.
+- **Responsibilities:**
+  - Validate user input.
+  - Add or update expense via ExpenseService.
+  - Notify UI of success/failure.
+- **Methods:**
+  - `saveExpense(expense: Expense)`
+- **State:**
+  - `expense: Expense`
+  - `isSaving: Bool`
+  - `errorMessage: String?`
