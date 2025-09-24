@@ -6,19 +6,48 @@ This document describes the main user interface flows for the **MyFiance v2** ex
 
 ## 1. Main Screens
 
-### 1.1 Dashboard / Home
-**Purpose:** Show an overview of recent expenses, totals, and categories.
+### 1.1 Home / Dashboard (Tab Bar)
+**Purpose:** Main entry point with two tabs for expenses and reports.
 
-**Elements:**
-- Summary of total expenses (daily / weekly / monthly)
-- Quick view of top categories
-- Button to **Add Expense**
-- Navigation menu (Categories, Reports, Settings)
+**Tabs:**
+1. **Expenses** – List of all expenses (default tab)  
+2. **More** – Various reports and analytics
+
+---
+
+#### 1.1.1 Expenses Tab
+**Purpose:** Show a list of expenses, allow quick search, and provide navigation to add expense or settings.
+
+**Layout:**
+- **Navigation Bar (top):**
+  - Left: title ("Expenses")
+  - Right: **Settings button**
+- **Body:**
+  - Search field below navigation bar
+  - Vertical list of expenses (`ExpenseItemView`)
+- **Floating button (bottom-right):** **Add Expense**
 
 **Flow:**
+- Scroll through expenses
+- Tap search → filter the list dynamically
 - Tap **Add Expense** → **Add Expense screen**
-- Tap a category → **Category Detail screen** (filtered expense list)
-- Tap **Reports** → **Reports screen**
+- Tap an expense → **Edit Expense screen**
+- Swipe / delete gesture → call `ExpenseService.delete`
+- Tap **Settings** → **Settings / Categories screen**
+
+---
+
+#### 1.1.2 More Tab
+**Purpose:** Show reports and analytics.
+
+**Elements:**
+- Monthly spending summary (graph or chart)
+- Category breakdown
+- Filter by time period (day / week / month)
+
+**Flow:**
+- Tap chart item → optionally filter **Expense List** in Expenses tab
+- Tap back → return to **More** tab
 
 ---
 
@@ -34,42 +63,12 @@ This document describes the main user interface flows for the **MyFiance v2** ex
 - Save / Cancel buttons
 
 **Flow:**
-- **Save:** validate inputs → call `ExpenseService.add` or `update` → return to **Home** or **Expense List**
+- **Save:** validate inputs → call `ExpenseService.add` or `update` → return to **Expenses tab**
 - **Cancel:** discard changes → return to previous screen
 
 ---
 
-### 1.3 Expense List / Category Detail
-**Purpose:** Show a list of expenses, optionally filtered by category or date.
-
-**Elements:**
-- Vertical list of expenses (`ExpenseItemView`)
-- Filter options (date range, category)
-- Search bar (optional)
-- Tap an item → **Edit Expense screen**
-
-**Flow:**
-- Scroll through expenses
-- Tap an expense → **Edit Expense**
-- Swipe / delete gesture → call `ExpenseService.delete`
-
----
-
-### 1.4 Reports / Analytics
-**Purpose:** Provide insights and summaries.
-
-**Elements:**
-- Monthly spending summary (graph or chart)
-- Category breakdown
-- Filter by time period (day / week / month)
-
-**Flow:**
-- Tap chart item → optionally filter **Expense List**
-- Tap back → return to **Home**
-
----
-
-### 1.5 Settings / Categories
+### 1.3 Settings / Categories
 **Purpose:** Manage categories and app settings.
 
 **Elements:**
@@ -85,15 +84,15 @@ This document describes the main user interface flows for the **MyFiance v2** ex
 
 ## 2. Navigation Flow (High-level)
 
-Home/Dashboard
-
-  └─ Add Expense → Save / Cancel → Home
-  
-  └─ Expense List → Tap item → Edit Expense → Save / Cancel → Expense List
-  
-  └─ Category Detail → Filtered Expense List
-  
-  └─ Reports → Filter / Tap chart → Expense List
-  
-  └─ Settings → Manage Categories / Preferences
-
+Home / Dashboard (Tab Bar)
+├─ Expenses Tab
+│ ├─ Navigation Bar: Title (left), Settings button (right)
+│ ├─ Search field → filter expenses
+│ ├─ Scroll expense list
+│ ├─ Tap expense → Edit Expense → Save / Cancel → Expenses
+│ ├─ Floating Add button (bottom-right) → Add Expense → Save / Cancel → Expenses
+│ └─ Settings button → Settings / Categories
+└─ More Tab
+├─ View reports
+├─ Tap chart item → filter Expenses list
+└─ Tap back → More Tab
