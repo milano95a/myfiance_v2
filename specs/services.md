@@ -1,9 +1,13 @@
-protocol ExpenseService {
-    func add(expense: Expense) throws
-    func update(expense: Expense) throws
-    func delete(expenseId: UUID) throws
-    func listExpenses(filter: ExpenseFilter) -> [Expense]
-}
+### ExpenseService
+
+Provides operations for managing expenses.
+
+**Methods:**
+
+- `add(expense: Expense)`: Add a new expense. Throws on failure.
+- `update(expense: Expense)`: Update an existing expense. Throws if expense does not exist.
+- `delete(expenseId: UUID)`: Delete an expense by its ID.
+- `listExpenses(filter: ExpenseFilter) -> [Expense]`: List expenses, optionally filtered by start/end date or category.
 
 struct ExpenseFilter {
     var startDate: Date?
