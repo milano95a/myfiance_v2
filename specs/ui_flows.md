@@ -87,13 +87,13 @@ This document describes the main user interface flows for the **MyFiance v2** ex
 
 Home/Dashboard
 
-  ├─ Add Expense → Save / Cancel → Home
+  └─ Add Expense → Save / Cancel → Home
   
-  ├─ Expense List → Tap item → Edit Expense → Save / Cancel → Expense List
+  └─ Expense List → Tap item → Edit Expense → Save / Cancel → Expense List
   
-  ├─ Category Detail → Filtered Expense List
+  └─ Category Detail → Filtered Expense List
   
-  ├─ Reports → Filter / Tap chart → Expense List
+  └─ Reports → Filter / Tap chart → Expense List
   
   └─ Settings → Manage Categories / Preferences
 
