@@ -10,133 +10,176 @@
 ## 2. Models
 
 ### Expense
-```swift
 struct Expense {
-    let id: UUID
-    var name: String
-    var amount: Double
-    var date: Date
-    var category: String
-    var notes: String?
+let id: UUID
+var name: String
+var amount: Double
+var date: Date
+var category: String
+var notes: String?
 }
-```
+
+shell
+Copy code
+
+### ExpenseFilter
+struct ExpenseFilter {
+var startDate: Date?
+var endDate: Date?
+var categories: [String]?
+}
+
+shell
+Copy code
+
+### MonthlySummary
+struct MonthlySummary {
+var month: Date
+var totalAmount: Double
+var categoryTotals: [String: Double]
+}
+
+yaml
+Copy code
 
 ---
 
 ## 3. Services
-```swift
 protocol ExpenseService {
-    func add(expense: Expense) throws
-    func update(expense: Expense) throws
-    func delete(expenseId: UUID) throws
-    func listExpenses(filter: ExpenseFilter?) -> [Expense]
+func add(expense: Expense) throws
+func update(expense: Expense) throws
+func delete(expenseId: UUID) throws
+func listExpenses(filter: ExpenseFilter?) -> [Expense]
+func monthlySummary(for month: Date) -> MonthlySummary
+func suggestCategory(for name: String) -> String?
 }
-```
+
+markdown
+Copy code
+
+- `monthlySummary(for:)` → returns total spending and category breakdown for a given month.  
+- `suggestCategory(for:)` → AI-assisted category suggestion based on expense name.
 
 ---
 
 ## 4. User Stories
 
-View Expenses List: Users can see all expenses in a scrollable list.
-
-Add Expense: Users can create a new expense entry.
-
-Edit Expense: Users can update an existing expense.
-
-Delete Expense: Users can remove an expense from the list.
-
----
-
-## 4. Constraints / Validation Rules
-
-Amount must be a positive number.
-
-Date defaults to today if not provided.
-
-All fields are required except Notes.
+- **View Expenses List:** Users can see all expenses in a scrollable list.  
+- **Add Expense:** Users can create a new expense entry.  
+- **Edit Expense:** Users can update an existing expense.  
+- **Delete Expense:** Users can remove an expense from the list.  
+- **Filter Expenses:** Users can filter expenses by date range and category.  
+- **Monthly Summary Report:** Users can view total spending and category breakdown for a selected month.  
+- **AI Category Suggestion:** App suggests category while adding/editing expense based on name.
 
 ---
 
-## 5. UI Flows & Layout
-Expenses List Screen
+## 5. Constraints / Validation Rules
 
-Navigation Bar: Title “Expenses”
-
-Vertical scrolling list of expenses
-
-Floating Add button (bottom-right) → Add Expense screen
-
-Tap expense → Edit Expense screen
-
-Swipe/delete gesture → Delete expense
-
-Add/Edit Expense Screen
-
-Form fields: Name, Amount, Date, Category, Notes
-
-Save → calls ExpenseService.add() or .update()
-
-Cancel → return to Expenses List
-
-Validation: Amount numeric, Date defaults to today
-
-Navigation Flow (ASCII Diagram)
-Expenses List
- ├─ Tap expense → Edit Expense → Save/Cancel → back to list
- ├─ Tap Add → Add Expense → Save/Cancel → back to list
- └─ Swipe/Delete → Delete expense
+- Amount must be a positive number.  
+- Date defaults to today if not provided.  
+- All fields are required except Notes.  
+- Filters can be empty (show all expenses).  
 
 ---
 
-## 6. Code Generation Sequence
+## 6. UI Flows & Layout
 
-Generate Models & ExpenseService (CRUD)
+### Expenses List Screen
+- Navigation Bar: Title “Expenses”  
+- Scrollable list of expenses  
+- Floating Add button → Add Expense screen  
+- Tap expense → Edit Expense screen  
+- Swipe/delete gesture → Delete expense  
+- Filter button → opens Filter modal  
 
-Generate Expenses List screen with navigation & interactions
+### Add/Edit Expense Screen
+- Form fields: Name, Amount, Date, Category, Notes  
+- Save → calls ExpenseService.add() or .update()  
+- Cancel → back to Expenses List  
+- Category field shows AI suggestions  
 
-Generate Add/Edit Expense screen
+### Filter Modal
+- Fields: Start Date, End Date, Category multi-select  
+- Apply → updates expenses list  
+- Cancel → dismiss modal  
 
-Test each chunk before moving to the next
-
-(Future) Add reports, filters, AI enhancements
+### Monthly Summary Screen
+- Month picker  
+- Total spending displayed prominently  
+- Bar/line chart for category-wise spending  
+- Option to navigate back to expenses list  
 
 ---
 
-## 7. Notes for AI & Developers
+## 7. Database / Persistence Layer
 
-Keep layouts conceptual (top, bottom, floating buttons)
+**Purpose:** Provide persistent storage for expenses using CoreData.  
 
-Follow validation rules from constraints section
+### Entities
 
-Use this README as the single source of truth for all features
+**CDExpense**
+
+| Field    | Type  | Optional | Notes                      |
+|----------|-------|---------|----------------------------|
+| id       | UUID  | ❌      | Primary key               |
+| name     | String| ❌      | Expense name              |
+| amount   | Double| ❌      | Must be positive          |
+| date     | Date  | ❌      | Defaults to today if missing |
+| category | String| ❌      | Expense category          |
+| notes    | String| ✅      | Optional notes            |
+
+### CoreData Implementation Notes
+- CRUD operations implemented via `NSManagedObjectContext`.  
+- Use `NSFetchRequest` and `NSPredicate` for listing and filtering.  
+- Map between `CDExpense` (CoreData) and `Expense` (app model).  
+- Save context after every add/update/delete.  
+- Optional enhancements: indices on `date` and `category`, batch deletes, cached monthly summaries.
 
 ---
 
-## 9. ViewModels
+## 8. Code Generation Sequence
+
+1. Implement Models & ExpenseService (with CoreData)  
+2. Implement ViewModels (ExpenseListViewModel, AddEditExpenseViewModel, FilterViewModel, SummaryViewModel)  
+3. Implement Expenses List screen & navigation  
+4. Implement Add/Edit Expense screen with AI suggestions  
+5. Implement Filter modal  
+6. Implement Monthly Summary screen  
+7. Test all features  
+8. (Future) AI enhancements & reports export  
+
+---
+
+## 9. Notes for AI & Developers
+
+- Keep layouts conceptual (top, bottom, floating buttons).  
+- Follow validation rules from constraints section.  
+- Use this README as the single source of truth for all features.  
+- Filters, reports, and AI category suggestions should not block basic CRUD functionality.  
+
+---
+
+## 10. ViewModels
 
 ### ExpenseListViewModel
-- **Purpose:** Connects Expenses List UI with ExpenseService.
-- **Responsibilities:**
-  - Load expenses from ExpenseService.
-  - Handle deletion of expenses.
-  - Update UI state (loading, error, empty state).
-- **Methods:**
-  - `loadExpenses(filter: ExpenseFilter?)`
-  - `deleteExpense(id: UUID)`
-- **State:**
-  - `expenses: [Expense]`
-  - `isLoading: Bool`
-  - `errorMessage: String?`
+- Purpose: Connect Expenses List UI with ExpenseService.  
+- Responsibilities: Load expenses, handle deletion, apply filters.  
+- State: `expenses: [Expense]`, `isLoading: Bool`, `errorMessage: String?`  
+- Methods: `loadExpenses(filter: ExpenseFilter?)`, `deleteExpense(id: UUID)`, `applyFilter(filter: ExpenseFilter)`
 
 ### AddEditExpenseViewModel
-- **Purpose:** Connects Add/Edit Expense UI with ExpenseService.
-- **Responsibilities:**
-  - Validate user input.
-  - Add or update expense via ExpenseService.
-  - Notify UI of success/failure.
-- **Methods:**
-  - `saveExpense(expense: Expense)`
-- **State:**
-  - `expense: Expense`
-  - `isSaving: Bool`
-  - `errorMessage: String?`
+- Purpose: Connect Add/Edit Expense UI with ExpenseService.  
+- Responsibilities: Validate input, save expense, provide AI category suggestions.  
+- State: `expense: Expense`, `isSaving: Bool`, `errorMessage: String?`, `categorySuggestion: String?`  
+- Methods: `saveExpense()`, `fetchCategorySuggestion(for name: String)`
+
+### FilterViewModel
+- Purpose: Manage filters and pass them to ExpenseListViewModel.  
+- State: `startDate: Date?`, `endDate: Date?`, `categories: [String]?`  
+- Methods: `applyFilter()`, `clearFilter()`
+
+### SummaryViewModel
+- Purpose: Generate monthly spending summary.  
+- State: `month: Date`, `summary: MonthlySummary?`, `isLoading: Bool`  
+- Methods: `loadSummary(for month: Date)`
