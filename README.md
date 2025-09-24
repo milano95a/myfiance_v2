@@ -20,3 +20,13 @@ struct Expense {
     var notes: String?
 }
 
+---
+
+## 3. Services
+```swift
+protocol ExpenseService {
+    func add(expense: Expense) throws
+    func update(expense: Expense) throws
+    func delete(expenseId: UUID) throws
+    func listExpenses(filter: ExpenseFilter?) -> [Expense]
+}
