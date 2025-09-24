@@ -23,7 +23,7 @@ struct Expense {
 ---
 
 ## 3. Services
-```swift
+
 protocol ExpenseService {
     func add(expense: Expense) throws
     func update(expense: Expense) throws
