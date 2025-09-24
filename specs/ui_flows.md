@@ -86,6 +86,7 @@ This document describes the main user interface flows for the **MyFiance v2** ex
 ## 2. Navigation Flow (High-level)
 
 Home/Dashboard
+
   ├─ Add Expense → Save / Cancel → Home
   
   ├─ Expense List → Tap item → Edit Expense → Save / Cancel → Expense List
