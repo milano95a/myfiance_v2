@@ -9,8 +9,8 @@ Provides operations for managing expenses.
 - `delete(expenseId: UUID)`: Delete an expense by its ID.
 - `listExpenses(filter: ExpenseFilter) -> [Expense]`: List expenses, optionally filtered by start/end date or category.
 
-struct ExpenseFilter {
+`struct ExpenseFilter {
     var startDate: Date?
     var endDate: Date?
     var categoryId: UUID?
-}
+}`
