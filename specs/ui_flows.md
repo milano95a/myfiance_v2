@@ -1,47 +1,26 @@
-# UI Flows & Layout (AI-Friendly Spec)
+# UI Flows & Layout (Minimal Version)
 
-This document describes the screens, UI elements, and navigation flows for **MyFiance v2**.  
-It is structured to allow AI-assisted code generation while remaining human-readable.
+This document describes the **core screens and flows** for MyFiance v2, focusing on basic expense management: list, add, edit, and delete.
 
 ---
 
-## 1. Home / Dashboard (Tab Bar)
-
-**Tabs:**
-1. **Expenses** – Default tab
-2. **More** – Reports & analytics
-
-### 1.1 Expenses Tab
+## 1. Home / Dashboard (Expenses List Only)
 
 **Screen Layout:**
 - **Navigation Bar (top)**
-  - Left: Title ("Expenses")
-  - Right: Settings button → navigates to **Settings / Categories**  
+  - Title: "Expenses"
 - **Body**
-  - Search field (top of body) → filters expense list dynamically
-  - Expense list (vertical scrolling list) → tap item → **Edit Expense**  
-- **Floating Action Button** → tap → **Add Expense**  
+  - Vertical list of expenses → tap item → **Edit Expense**
+- **Floating Action Button** → tap → **Add Expense**
 
 **Interactions / Navigation:**
-- Tap **Search field** → filter expense list
 - Tap expense item → **Edit Expense screen**
 - Tap Add button → **Add Expense screen**
-- Tap Settings button → **Settings / Categories screen**
-
-**Optional Notes for AI:**
-- Search field optional input
-- Expense list: show most recent first, scrollable
-- Floating Add button always visible
+- Swipe / delete gesture on expense → **Delete Expense**
 
 ---
 
-### 1.2 More Tab
-
-*(To be defined later)*
-
----
-
-### 1.3 Add / Edit Expense Screen
+## 2. Add / Edit Expense Screen
 
 **Screen Layout:**
 - Form fields:
@@ -51,54 +30,31 @@ It is structured to allow AI-assisted code generation while remaining human-read
   - Category (dropdown / selector)
   - Notes (optional)
 - Buttons:
-  - Save → validates & saves → returns to **Expenses Tab**
-  - Cancel → discard changes → returns to previous screen
+  - Save → validates & saves → returns to **Expenses list**
+  - Cancel → discard changes → returns to **Expenses list**
 
 **Optional Notes for AI:**
 - Validate that Amount is numeric
 - Auto-select today’s date by default
-- Category dropdown can include AI-suggested categories
 
 ---
 
-### 1.4 Settings / Categories Screen
+## 3. Navigation Flow (ASCII Diagram)
 
-**Screen Layout:**
-- List of categories (name, color)
-- Buttons:
-  - Add → add new category
-  - Edit / Delete → update or remove category
-- Preferences (optional):
-  - Currency
-  - Date format
-  - AI settings
-
-**Interactions / Navigation:**
-- Tap Add → open form → save → update list
-- Tap category → edit/delete → save or delete → update list
-
----
-
-## 2. Navigation Flow (ASCII Diagram)
-
-Home / Dashboard (Tab Bar)
-├─ Expenses Tab
-│ ├─ Search field → filter expenses
-│ ├─ Tap expense → Edit Expense → Save / Cancel → return to Expenses
-│ ├─ Tap Add button → Add Expense → Save / Cancel → return to Expenses
-│ └─ Tap Settings button → Settings / Categories → back
-└─ More Tab
-└─ (To be defined)
+Home / Dashboard (Expenses List)
+├─ Tap expense → Edit Expense → Save / Cancel → return to Expenses List
+├─ Tap Add button → Add Expense → Save / Cancel → return to Expenses List
+└─ Swipe / delete → Delete Expense
 
 yaml
 Copy code
 
 ---
 
-## 3. Notes for AI Code Generation
+## 4. Notes for AI Code Generation
 
-- Use structured layout: navigation bar, body, floating buttons, lists, forms.  
-- Use default values where indicated (e.g., today’s date).  
-- All screens should be responsive and handle dynamic data.  
-- AI-suggested enhancements can include auto-categorization and spending predictions.  
-- Avoid pixel-perfect positions; conceptual layout (top, bottom, floating) is sufficient.
+- Start with **Expense model and ExpenseService** (CRUD methods: add, update, delete, list).  
+- Then implement **Expenses List screen** with interactions.  
+- Next implement **Add/Edit Expense screen**.  
+- Keep layout conceptual (list, top navigation bar, floating button).  
+- Test each part before adding new features.  
