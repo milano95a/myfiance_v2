@@ -3,7 +3,6 @@
 ## 1. Project Overview
 **Purpose:** Expense tracking app with AI-assisted enhancements.  
 **Core functionality:** Add, edit, delete, and view expenses.  
-**Future goals:** AI suggestions, auto-categorization, reports.
 
 ---
 
@@ -147,7 +146,6 @@ Copy code
 5. Implement Filter modal  
 6. Implement Monthly Summary screen  
 7. Test all features  
-8. (Future) AI enhancements & reports export  
 
 ---
 
